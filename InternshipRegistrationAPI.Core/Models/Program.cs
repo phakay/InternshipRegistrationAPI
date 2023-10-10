@@ -25,7 +25,7 @@ namespace InternshipRegistrationAPI.Core.Models
     public class AdditionalProgramInformation
     {
         [Required]
-        public ProgramType ProgramType { get; set; }
+        public ProgramType? ProgramType { get; set; }
         public DateTime ProgramStart { get; set; }
         [Required]
         public DateTime ApplicationOpen { get; set; }
@@ -34,7 +34,7 @@ namespace InternshipRegistrationAPI.Core.Models
         public Duration Duration { get; set; }
         [Required]
         public Location ProgramLocation { get; set; }
-        public Qualification MinimumQualification { get; set; }
+        public Qualification? MinimumQualification { get; set; }
         [Range(0, int.MaxValue)]
         public int MaxNumberOfApplication { get; set; }
     }

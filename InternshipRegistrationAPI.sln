@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternshipRegistrationAPI.Core", "InternshipRegistrationAPI.Core\InternshipRegistrationAPI.Core.csproj", "{6C6E0555-B12B-405C-A3AA-946C5B8C9AAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternshipRegistrationAPI.Tests", "InternshipRegistrationAPI.Tests\InternshipRegistrationAPI.Tests.csproj", "{CBB9A230-F571-491A-A0D2-4E5DC3CEBA8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6C6E0555-B12B-405C-A3AA-946C5B8C9AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C6E0555-B12B-405C-A3AA-946C5B8C9AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C6E0555-B12B-405C-A3AA-946C5B8C9AAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB9A230-F571-491A-A0D2-4E5DC3CEBA8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB9A230-F571-491A-A0D2-4E5DC3CEBA8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB9A230-F571-491A-A0D2-4E5DC3CEBA8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB9A230-F571-491A-A0D2-4E5DC3CEBA8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
