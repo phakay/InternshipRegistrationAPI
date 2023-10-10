@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternshipRegistrationAPI.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternshipRegistrationAPI.Tests", "InternshipRegistrationAPI.Tests\InternshipRegistrationAPI.Tests.csproj", "{CBB9A230-F571-491A-A0D2-4E5DC3CEBA8A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternshipRegistrationAPI.Data", "InternshipRegistrationAPI.Data\InternshipRegistrationAPI.Data.csproj", "{54FBF955-DCC9-47C5-8BE7-6857AB66B5AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CBB9A230-F571-491A-A0D2-4E5DC3CEBA8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBB9A230-F571-491A-A0D2-4E5DC3CEBA8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBB9A230-F571-491A-A0D2-4E5DC3CEBA8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54FBF955-DCC9-47C5-8BE7-6857AB66B5AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54FBF955-DCC9-47C5-8BE7-6857AB66B5AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54FBF955-DCC9-47C5-8BE7-6857AB66B5AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54FBF955-DCC9-47C5-8BE7-6857AB66B5AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

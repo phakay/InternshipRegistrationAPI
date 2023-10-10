@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace InternshipRegistrationAPI.Core.Models
 {
     public class Program
     {
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
         [Required]
         public  string ProgramTitle { get; set; }
