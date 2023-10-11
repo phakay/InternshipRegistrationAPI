@@ -9,10 +9,10 @@ namespace InternshipRegistrationAPI.Data.Repositories;
 public class DataRepository<T> : IDataRepository<T> where T : class, ICosmosDbDocument
 {
     private Container _container;
-  
-    public DataRepository(string containerId, string partitionKeyPath)
+
+    public DataRepository(IApplicationDbContext dbContext, string containerId, string partitionKeyPath)
     {
-        _container = new ApplicationDbContext().Database.CreateContainerIfNotExistsAsync(containerId, partitionKeyPath).Result;
+        _container = dbContext.Database.CreateContainerIfNotExistsAsync(containerId, partitionKeyPath).Result;
     }
 
     public async Task<T> AddAsync(T entity)
@@ -33,7 +33,7 @@ public class DataRepository<T> : IDataRepository<T> where T : class, ICosmosDbDo
         var response = await _container.ReplaceItemAsync<T>(entity, entity.Id, new PartitionKey(entity.PartitionKey));
         return response.Resource;
     }
-
+     
     public async Task<T> GetAsync(string Id, string partitionKey)
     {
         var response = await _container.ReadItemAsync<T>(Id, new PartitionKey(partitionKey));
@@ -62,7 +62,6 @@ public class DataRepository<T> : IDataRepository<T> where T : class, ICosmosDbDo
                 results.Add(result);
             }
         }
-
         return results;
     }
 
@@ -70,11 +69,11 @@ public class DataRepository<T> : IDataRepository<T> where T : class, ICosmosDbDo
     public async Task<bool> RemoveAsync(string id, string partitionKey)
     {
         ItemResponse<T> response = await _container.DeleteItemAsync<T>(id, new PartitionKey(partitionKey));
-        return true;
+        return response.StatusCode == HttpStatusCode.NoContent;
     }
     
 
-    public async Task<bool> RemoveAsync(string id)
+    public Task<bool> RemoveAsync(string id)
     {
         throw new NotImplementedException();
     }
