@@ -1,4 +1,5 @@
 ﻿using InternshipRegistrationAPI.Core.Contracts;
+using InternshipRegistrationAPI.Core.Exceptions;
 using InternshipRegistrationAPI.Data.Contracts;
 using Microsoft.Azure.Cosmos;
 using System.Net;
@@ -21,7 +22,7 @@ public class DataRepository<T> : IDataRepository<T> where T : class, ICosmosDbDo
         {
             return  await GetAsync(entity.Id, entity.PartitionKey);
         }
-        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        catch (ItemNotFoundException)
         {
             var response = await _container.CreateItemAsync<T>(entity, new PartitionKey(entity.PartitionKey));
             return  response.Resource;
@@ -34,10 +35,18 @@ public class DataRepository<T> : IDataRepository<T> where T : class, ICosmosDbDo
         return response.Resource;
     }
      
-    public async Task<T> GetAsync(string Id, string partitionKey)
+    public async Task<T> GetAsync(string id, string partitionKey)
     {
-        var response = await _container.ReadItemAsync<T>(Id, new PartitionKey(partitionKey));
-        return response.Resource;
+        try
+        {
+            var response = await _container.ReadItemAsync<T>(id, new PartitionKey(partitionKey));
+            return response.Resource;
+        }
+        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            throw new ItemNotFoundException($"Then entity: {id} could not be found");
+        }
+  
     }
 
     public async Task<T> GetAsync(string id)

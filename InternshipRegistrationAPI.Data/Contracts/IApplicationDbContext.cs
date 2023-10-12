@@ -2,7 +2,7 @@
 
 namespace InternshipRegistrationAPI.Data.Contracts
 {
-    public interface IApplicationDbContext
+    public interface IApplicationDbContext : IDisposable
     {
         Database Database { get; }
     }
