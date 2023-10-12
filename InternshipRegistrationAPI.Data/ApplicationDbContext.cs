@@ -1,11 +1,6 @@
 ﻿using InternshipRegistrationAPI.Data.Contracts;
 using Microsoft.Azure.Cosmos;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InternshipRegistrationAPI.Data
 {

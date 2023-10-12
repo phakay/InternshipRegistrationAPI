@@ -3,9 +3,7 @@ using InternshipRegistrationAPI.Data;
 using InternshipRegistrationAPI.Data.Contracts;
 using InternshipRegistrationAPI.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
 
 namespace InternshipRegistrationAPI.App
 {
