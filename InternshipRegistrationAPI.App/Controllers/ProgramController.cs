@@ -2,14 +2,15 @@
 using InternshipRegistrationAPI.Core.Dtos;
 using InternshipRegistrationAPI.Core.Exceptions;
 using InternshipRegistrationAPI.Data.Contracts;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
+using Models = InternshipRegistrationAPI.Core.Models;
+using System.Web.Http;
+
 
 namespace InternshipRegistrationAPI.App.Controllers
 {
-    [ApiController]
+    
     [Route("api/{controller}")]
-    public class ProgramController : ControllerBase
+    public class ProgramController : ApiController
     {
         private IProgramRepository _programRepository;
         private IMapper _mapper;
@@ -19,23 +20,24 @@ namespace InternshipRegistrationAPI.App.Controllers
             _programRepository = programRepository;
             _mapper = mapper;
         }
-
-        [HttpGet("{id}/{partitionKey}")]
-        public async Task<ActionResult<ProgramDto>> GetProgram(string id, string partitionKey)
+        [HttpGet]
+        [Route("{id}/{partitionKey}")]
+        public async Task<IHttpActionResult> GetProgram(string id, string partitionKey)
         {
             try
             {
-                var responseData = await _programRepository.GetProgramAsync(id, partitionKey);
-                var responseDto = _mapper.Map<ProgramDto>(responseData);
-                return Ok(responseDto);
+                Models.Program response = await _programRepository.GetProgramAsync(id, partitionKey);
+                var responseDto = _mapper.Map<ProgramDto>(response);
+                
+                return Ok<ProgramDto>(responseDto);
             }
             catch (ItemNotFoundException ex)
             {
-                return NotFound(new { error = ex.Message });
+                return NotFound();
             }
             catch (Exception ex)
             {
-                return  StatusCode((int) HttpStatusCode.InternalServerError, new { error = "An error occured while processing the request" });
+                return InternalServerError(ex);
             }
         }
     }

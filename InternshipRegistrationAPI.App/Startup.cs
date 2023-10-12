@@ -24,13 +24,10 @@ namespace InternshipRegistrationAPI.App
             services.AddScoped<IProgramRepository, ProgramRepository>();
 
             services.AddSingleton<IMapper>(svc =>
-            {
-                var mappingConfig = new MapperConfiguration(conf =>
-                {
-                    conf.AddProfile<MappingProfile>();
-                });
-                return mappingConfig.CreateMapper();
-            });
+                new MapperConfiguration(conf =>
+                    conf.AddProfile<MappingProfile>()
+                ).CreateMapper()
+            );
         }
     }
 }

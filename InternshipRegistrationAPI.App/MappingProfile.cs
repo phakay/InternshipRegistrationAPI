@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using InternshipRegistrationAPI.Core.Dtos;
-using InternshipRegistrationAPI.Data.DataModels;
+using Models =  InternshipRegistrationAPI.Core.Models;
 
 namespace InternshipRegistrationAPI.App
 {
@@ -8,8 +8,9 @@ namespace InternshipRegistrationAPI.App
     {
         public MappingProfile()
         {
-            CreateMap<ProgramDto, ProgramData>().ReverseMap();
-            
+            CreateMap<Models.Program, ProgramDto>()
+                .ForMember(dest => dest.Data, 
+                    conf =>conf.MapFrom(src => src));
         }
     }
 }
