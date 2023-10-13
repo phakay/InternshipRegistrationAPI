@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using InternshipRegistrationAPI.Core.Dtos;
-using InternshipRegistrationAPI.Core.Models;
 using Models = InternshipRegistrationAPI.Core.Models;
 
 namespace InternshipRegistrationAPI.App

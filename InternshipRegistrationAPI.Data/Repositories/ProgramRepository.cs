@@ -1,6 +1,5 @@
 ﻿using InternshipRegistrationAPI.Data.Contracts;
 using InternshipRegistrationAPI.Core.Models;
-using InternshipRegistrationAPI.Core.Contracts;
 
 namespace InternshipRegistrationAPI.Data.Repositories
 {

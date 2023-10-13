@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using InternshipRegistrationAPI.Core.Dtos;
-using InternshipRegistrationAPI.Core.Models;
 using InternshipRegistrationAPI.Core.Utils;
 using Xunit;
 
