@@ -88,10 +88,16 @@ namespace InternshipRegistrationAPI.App.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> ReplaceProgram(string id, [FromBody] ProgramPutDto dto)
+        public async Task<IActionResult> ReplaceProgram(string id, [FromBody] ProgramDto dto)
         {
             try
             {
+                if (string.IsNullOrEmpty(dto.Id))
+                {
+                    ModelState.AddModelError("", "id is required for this type of request");
+                    return BadRequest(ModelState);
+
+                }
                 if (dto.Id != id)
                 {
                     ModelState.AddModelError("", "id in the url must be equal to id in the request body");
@@ -102,6 +108,10 @@ namespace InternshipRegistrationAPI.App.Controllers
                 var responseData = await _programRepository.UpdateProgramAsync(data);
                 ProgramDto response = _mapper.Map<ProgramDto>(responseData);
                 return Ok(response);
+            }
+            catch (ItemNotFoundException ex)
+            {
+                return NotFound();
             }
             catch (Exception ex)
             {

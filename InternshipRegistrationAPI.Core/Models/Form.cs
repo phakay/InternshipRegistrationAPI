@@ -1,20 +1,24 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using InternshipRegistrationAPI.Core.Contracts;
 using Newtonsoft.Json;
 
 namespace InternshipRegistrationAPI.Core.Models;
-
 public class Form : IDistributableEntity
 {
     [JsonProperty(PropertyName = "id")]
     public string Id { get; set; }
     public string UploadCoverImageUrl { get; set; }
+    [Required]
     public string Type { get; set; }
+    [Required]
     public PersonalInformation PersonalInformation { get; set; }
+    [Required]
     public Profile Profile { get; set; }
-    
-    
-    
+
+    public List<QuestionTemplate> AdditionalQuestions { get; set; }
+
+
     #region IDistributable Property
     public string PartitionKey => Type;
     #endregion
@@ -32,7 +36,7 @@ public class PersonalInformation
     public PersonalInformationTemplate DateOfBirth { get; set; }
     public PersonalInformationTemplate Gender { get; set; }
     public List<QuestionTemplate> PersonalQuestions { get; set; }
-    public List<QuestionTemplate> AdditionalQuestions { get; set; }
+    
 }
 
 public class PersonalInformationTemplate
@@ -65,7 +69,11 @@ public class QuestionTemplate
 public enum QuestionType
 {
     Paragraph,
-    Dropdown,
+    ShortAnswer,
     YesNo,
-    MultipleChoice
+    DropDown,
+    MultipleChoice,
+    Date,
+    Number,
+    FileUpload
 }

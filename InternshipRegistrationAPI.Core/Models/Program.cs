@@ -9,7 +9,6 @@ namespace InternshipRegistrationAPI.Core.Models
 {
     public class Program :  IDistributableEntity
     {
-        [Key]
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
         [Required]

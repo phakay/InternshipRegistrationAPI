@@ -31,8 +31,15 @@ public class DataRepository<T> : IDataRepository<T> where T : class, IDistributa
 
     public async Task<T> UpdateAsync(T entity)
     {
-        var response = await _container.ReplaceItemAsync<T>(entity, entity.Id, new PartitionKey(entity.PartitionKey));
-        return response.Resource;
+        try
+        {
+            var response = await _container.ReplaceItemAsync<T>(entity, entity.Id, new PartitionKey(entity.PartitionKey));
+            return response.Resource;
+        }
+        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            throw new ItemNotFoundException($"Then entity: {entity.Id} could not be found");
+        }
     }
      
     public async Task<T> GetAsync(string id, string partitionKey)
