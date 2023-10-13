@@ -1,4 +1,5 @@
 ﻿
+using InternshipRegistrationAPI.Core.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -6,8 +7,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace InternshipRegistrationAPI.Core.Models
 {
-    public class Program
+    public class Program :  IDistributableEntity
     {
+        [Key]
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
         [Required]
@@ -18,7 +20,13 @@ namespace InternshipRegistrationAPI.Core.Models
         public string SkillsRequiredForProgram { get; set; }
         public string ProgramBenefits { get; set; }
         public string ApplicationCriteria { get; set; }
+        [Required]
         public AdditionalProgramInformation AdditionalProgramInformation { get; set; }
+
+        #region IDistributable Property
+        public string PartitionKey => Id;
+        #endregion
+
     }
 
     public class AdditionalProgramInformation

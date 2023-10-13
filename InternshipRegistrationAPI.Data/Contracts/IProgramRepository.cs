@@ -1,13 +1,13 @@
-﻿using InternshipRegistrationAPI.Data.DataModels;
+﻿using InternshipRegistrationAPI.Core.Models;
 
 namespace InternshipRegistrationAPI.Data.Contracts
 {
     public interface IProgramRepository
     {
-        Task<ProgramData> AddProgramAsync(ProgramData program);
-        Task<ProgramData> GetProgramAsync(string id, string partitionKey);
-        Task<IEnumerable<ProgramData>> GetProgramsAsync();
+        Task<Program> AddProgramAsync(Program program);
+        Task<Program> GetProgramAsync(string id, string partitionKey);
+        Task<IEnumerable<Program>> GetProgramsAsync();
         Task<bool> RemoveProgramAsync(string id, string partitionKey);
-        Task<ProgramData> UpdateProgramAsync(ProgramData program);
+        Task<Program> UpdateProgramAsync(Program program);
     }
 }

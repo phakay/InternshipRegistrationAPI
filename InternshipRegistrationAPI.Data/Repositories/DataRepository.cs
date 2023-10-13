@@ -1,5 +1,6 @@
 ﻿using InternshipRegistrationAPI.Core.Contracts;
 using InternshipRegistrationAPI.Core.Exceptions;
+using InternshipRegistrationAPI.Core.Models;
 using InternshipRegistrationAPI.Data.Contracts;
 using Microsoft.Azure.Cosmos;
 using System.Net;
@@ -7,7 +8,7 @@ using System.Net;
 namespace InternshipRegistrationAPI.Data.Repositories;
 
 
-public class DataRepository<T> : IDataRepository<T> where T : class, ICosmosDbDocument
+public class DataRepository<T> : IDataRepository<T> where T : class, IDistributableEntity
 {
     private Container _container;
 

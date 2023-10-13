@@ -1,35 +1,39 @@
-﻿using AutoMapper;
+﻿using System.Net;
+using AutoMapper;
 using InternshipRegistrationAPI.Core.Dtos;
 using InternshipRegistrationAPI.Core.Exceptions;
 using InternshipRegistrationAPI.Data.Contracts;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Models = InternshipRegistrationAPI.Core.Models;
-using System.Web.Http;
 
 
 namespace InternshipRegistrationAPI.App.Controllers
 {
-    
     [Route("api/{controller}")]
-    public class ProgramController : ApiController
+    [ApiController]
+    public class ProgramController : ControllerBase
     {
         private IProgramRepository _programRepository;
         private IMapper _mapper;
+        
 
         public ProgramController(IProgramRepository programRepository, IMapper mapper)
         {
             _programRepository = programRepository;
             _mapper = mapper;
+            
         }
-        [HttpGet]
-        [Route("{id}/{partitionKey}")]
-        public async Task<IHttpActionResult> GetProgram(string id, string partitionKey)
+
+        [HttpGet("{id}/{partitionKey}")]
+        public async Task<IActionResult> GetProgram(string id, string partitionKey)
         {
             try
             {
-                Models.Program response = await _programRepository.GetProgramAsync(id, partitionKey);
-                var responseDto = _mapper.Map<ProgramDto>(response);
-                
-                return Ok<ProgramDto>(responseDto);
+                var responseData = await _programRepository.GetProgramAsync(id, partitionKey);
+                var responseDto = _mapper.Map<ProgramDto>(responseData);
+
+                return Ok(responseDto);
             }
             catch (ItemNotFoundException ex)
             {
@@ -37,8 +41,74 @@ namespace InternshipRegistrationAPI.App.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError,
+                    new { error = "An error occurred", errorInfo = ex.Message });
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPrograms()
+        {
+            try
+            {
+                var responseData = await _programRepository.GetProgramsAsync();
+                var responseDtos = new List<ProgramDto>();
+                foreach (var data in responseData)
+                {
+                    responseDtos.Add(_mapper.Map<ProgramDto>(data));
+                }
+                
+                return Ok(responseDtos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError,
+                    new { error = "An error occurred", errorInfo = ex.Message });
+            }
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> PostProgram([FromBody] ProgramDto dto)
+        {
+            try
+            {
+                if (ModelState.ValidationState != ModelValidationState.Valid )
+                    return BadRequest(ModelState);
+
+                var data = _mapper.Map<Models.Program>(dto);
+                var responseData = await _programRepository.AddProgramAsync(data);
+                ProgramDto response =  _mapper.Map<ProgramDto>(responseData);
+                return CreatedAtAction(nameof(GetProgram), new {id = responseData.Id , partitionKey = responseData.PartitionKey}, response );
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, 
+                    new { error = "An error occurred", errorInfo = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> ReplaceProgram(string id, [FromBody] ProgramPutDto dto)
+        {
+            try
+            {
+                if (dto.Id != id)
+                {
+                    ModelState.AddModelError("", "id in the url must be equal to id in the request body");
+                    return BadRequest(ModelState);
+                }
+                    
+                var data = _mapper.Map<Models.Program>(dto);
+                var responseData = await _programRepository.UpdateProgramAsync(data);
+                ProgramDto response = _mapper.Map<ProgramDto>(responseData);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError,
+                    new { error = "An error occurred", errorInfo = ex.Message });
+            }
+        }
+
     }
 }

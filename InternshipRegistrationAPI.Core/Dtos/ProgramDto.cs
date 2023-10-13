@@ -1,46 +1,37 @@
-﻿using InternshipRegistrationAPI.Core.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using InternshipRegistrationAPI.Core.Models;
 
 namespace InternshipRegistrationAPI.Core.Dtos
 {
+ 
     public class ProgramDto
     {
-        public Program Data { get; set; }
-        public static ProgramDto LoadSampleData()
-        {
-            ProgramDto programDto = new ProgramDto()
-            {
-                Data = new Program
-                {
-                    Id = "",
-                    ProgramTitle = "Sample Title",
-                    ProgramSummary = "",
-                    ProgramDescription = "Sample Description",
-                    SkillsRequiredForProgram = "",
-                    ProgramBenefits = "",
-                    ApplicationCriteria = "",
-                    AdditionalProgramInformation = new AdditionalProgramInformation
-                    {
-                        ProgramType = ProgramType.FullTime,
-                        ProgramStart = default,
-                        ApplicationOpen = default,
-                        ApplicationClose = default,
-                        Duration = new Duration
-                        {
-                            Value = 1,
-                            Unit = DurationUnit.Day
-                        },
-                        ProgramLocation = new Location
-                        {
-                            CountryShortName = "UK",
-                            City = "London",
-                            FullyRemote = false
-                        },
-                        MinimumQualification = Qualification.HighSchool,
-                        MaxNumberOfApplication = 0
-                    }
-                }
-            };
-            return programDto;
-        }
+        public string Id { get; set; }
+        [Required]
+        public string ProgramTitle { get; set; }
+        public string ProgramSummary { get; set; }
+        [Required]
+        public string ProgramDescription { get; set; }
+        public string SkillsRequiredForProgram { get; set; }
+        public string ProgramBenefits { get; set; }
+        public string ApplicationCriteria { get; set; }
+        [Required]
+        public AdditionalProgramInformation AdditionalProgramInformation { get; set; }
+    }
+    public class ProgramPutDto
+    {
+        [Required]
+        public string Id { get; set; }
+        [Required]
+        public string ProgramTitle { get; set; }
+        public string ProgramSummary { get; set; }
+        [Required]
+        public string ProgramDescription { get; set; }
+        public string SkillsRequiredForProgram { get; set; }
+        public string ProgramBenefits { get; set; }
+        public string ApplicationCriteria { get; set; }
+        [Required]
+        public AdditionalProgramInformation AdditionalProgramInformation { get; set; }
+
     }
 }
