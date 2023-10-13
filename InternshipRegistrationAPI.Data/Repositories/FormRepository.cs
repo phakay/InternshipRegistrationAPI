@@ -22,15 +22,7 @@ namespace InternshipRegistrationAPI.Data.Repositories
         {
             return await GetAsync();
         }
-        public async Task<Form> AddFormAsync(Form form)
-        {
-            if (string.IsNullOrEmpty(form.Id)) 
-            { 
-                form.Id = Guid.NewGuid().ToString();
 
-            }
-            return await AddAsync(form);
-        }
         public async Task<Form> UpdateFormAsync(Form form)
         {
             return await UpdateAsync(form);
