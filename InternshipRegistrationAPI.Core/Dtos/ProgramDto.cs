@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using InternshipRegistrationAPI.Core.Models;
 
 namespace InternshipRegistrationAPI.Core.Dtos
 {
- 
+
     public class ProgramDto
     {
         public string Id { get; set; }
@@ -17,6 +18,28 @@ namespace InternshipRegistrationAPI.Core.Dtos
         public string ApplicationCriteria { get; set; }
         [Required]
         public AdditionalProgramInformation AdditionalProgramInformation { get; set; }
+
+        public static ProgramDto LoadSampleData()
+        {
+            ProgramDto programDto = new ProgramDto
+            {
+                Id = "001",
+                ProgramDescription = "Test Descritpion",
+                ProgramTitle = "Title",
+                AdditionalProgramInformation = new AdditionalProgramInformation()
+                {
+                    ProgramType = ProgramType.FullTime,
+                    ProgramLocation = new Location()
+                    {
+                        City = "London",
+                        CountryShortName = "UK",
+                        FullyRemote = true
+                    }
+                }
+            };
+
+            return programDto;
+        }
     }
     public class ProgramPutDto
     {

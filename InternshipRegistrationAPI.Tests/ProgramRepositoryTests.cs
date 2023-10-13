@@ -1,10 +1,10 @@
 using InternshipRegistrationAPI.Data.Contracts;
-using InternshipRegistrationAPI.Data.DataModels;
 using InternshipRegistrationAPI.Data.Repositories;
 using Microsoft.Azure.Cosmos;
 using Moq;
 using System.Net;
 using InternshipRegistrationAPI.Core.Exceptions;
+using InternshipRegistrationAPI.Core.Models;
 using Xunit;
 
 namespace InternshipRegistrationAPI.Tests;
@@ -45,12 +45,12 @@ public class ProgramRepositoryTests
     public async Task GetProgramAsync_ProgramExists_Success()
     {
         // Arrange
-        var dbData = new ProgramData() { Id = "001", ProgramTitle = "Test" };
-        var mockItemResponse = new Mock<ItemResponse<ProgramData>>();
+        var dbData = new Program{ Id = "001", ProgramTitle = "Test" };
+        var mockItemResponse = new Mock<ItemResponse<Program>>();
         mockItemResponse.SetupGet(x => x.Resource).Returns(dbData);
 
         _mockContainer
-            .Setup(x => x.ReadItemAsync<ProgramData>(
+            .Setup(x => x.ReadItemAsync<Program>(
                 It.IsAny<string>(),
                 It.IsAny<PartitionKey>(),
                 It.IsAny<ItemRequestOptions>(),
@@ -72,7 +72,7 @@ public class ProgramRepositoryTests
     public async Task GetProgramAsync_ProgramDoesNotExist_ThrowsItemNotFoundException()
     {
         // Arrange
-        _mockContainer.Setup(x => x.ReadItemAsync<ProgramData>(
+        _mockContainer.Setup(x => x.ReadItemAsync<Program>(
                 "001", new PartitionKey("001"),
                 It.IsAny<ItemRequestOptions>(),
                 It.IsAny<CancellationToken>()))
@@ -92,11 +92,11 @@ public class ProgramRepositoryTests
     public async Task AddProgramAsync_ValidData_Success()
     {
         // Arrange
-        var data = new ProgramData() { Id = "001", ProgramTitle = "Test" };
-        var mockItemResponse = new Mock<ItemResponse<ProgramData>>();
+        var data = new Program { Id = "001", ProgramTitle = "Test" };
+        var mockItemResponse = new Mock<ItemResponse<Program>>();
         mockItemResponse.SetupGet(x => x.Resource).Returns(data);
 
-        _mockContainer.Setup(x => x.CreateItemAsync<ProgramData>(
+        _mockContainer.Setup(x => x.CreateItemAsync<Program>(
                 data,
                 new PartitionKey(data.PartitionKey),
                 It.IsAny<ItemRequestOptions>(),
@@ -104,7 +104,7 @@ public class ProgramRepositoryTests
             .ReturnsAsync(mockItemResponse.Object);
 
         _mockContainer
-            .Setup(x => x.ReadItemAsync<ProgramData>(
+            .Setup(x => x.ReadItemAsync<Program>(
                 data.Id,
                 new PartitionKey(data.PartitionKey),
                 It.IsAny<ItemRequestOptions>(),

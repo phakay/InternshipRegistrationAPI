@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using InternshipRegistrationAPI.Core.Dtos;
+using InternshipRegistrationAPI.Core.Models;
 using InternshipRegistrationAPI.Core.Utils;
 using Xunit;
 
@@ -12,6 +13,7 @@ namespace InternshipRegistrationAPI.Tests
         public void ValidateModel_ProgramDto_ValidData_Success()
         {
             ProgramDto programDto = ProgramDto.LoadSampleData();
+
             List<ValidationResult>? results = DataModelHelper.DoValidationCheck(programDto);
             Assert.NotNull(results);
             Assert.False(results.Count > 0);
@@ -21,7 +23,7 @@ namespace InternshipRegistrationAPI.Tests
         public void ValidateModel_ProgramDto_ProgramTitle_NotSet_Failure()
         {
             ProgramDto programDto = ProgramDto.LoadSampleData();
-            programDto.Data.ProgramTitle = "";
+            programDto.ProgramTitle = "";
             List<ValidationResult> results = DataModelHelper.DoValidationCheck(programDto);
             Assert.NotNull(results);
             Assert.True(results.Count > 0);
@@ -31,11 +33,11 @@ namespace InternshipRegistrationAPI.Tests
         public void ValidateModel_ProgramDto_ProgramTitle_NotSet_ErrorMessageContainsPropertyName()
         {
             ProgramDto programDto = ProgramDto.LoadSampleData();
-            programDto.Data.ProgramTitle = "";
+            programDto.ProgramTitle = "";
             List<ValidationResult>? results = DataModelHelper.DoValidationCheck(programDto);
             Assert.NotNull(results);
             bool errorMessageHasPropertyName =
-                results.Exists(res => res.ErrorMessage != null && res.ErrorMessage.Contains(nameof(programDto.Data.ProgramTitle)));
+                results.Exists(res => res.ErrorMessage != null && res.ErrorMessage.Contains(nameof(programDto.ProgramTitle)));
             Assert.True(errorMessageHasPropertyName);
         }
 
@@ -43,12 +45,12 @@ namespace InternshipRegistrationAPI.Tests
         public void ValidateModel_ProgramDto_ProgramType_NotSet_ErrorMessageContainsPropertyName()
         {
             ProgramDto programDto = ProgramDto.LoadSampleData();
-            programDto.Data.AdditionalProgramInformation.ProgramType = null;
+            programDto.AdditionalProgramInformation.ProgramType = null;
             List<ValidationResult>? results = DataModelHelper.DoValidationCheck(programDto);
             Assert.NotNull(results);
             bool errorMessageHasPropertyName =
                 results.Exists(res => res.ErrorMessage != null && res.ErrorMessage
-                    .Contains(nameof(programDto.Data.AdditionalProgramInformation.ProgramType)));
+                    .Contains(nameof(programDto.AdditionalProgramInformation.ProgramType)));
             Assert.True(errorMessageHasPropertyName);
         }
         
@@ -56,7 +58,7 @@ namespace InternshipRegistrationAPI.Tests
         public void ValidateModel_ProgramDto_ProgramType_NotSet_Failure()
         {
             ProgramDto programDto = ProgramDto.LoadSampleData();
-            programDto.Data.AdditionalProgramInformation.ProgramType = null;
+            programDto.AdditionalProgramInformation.ProgramType = null;
             List<ValidationResult> results = DataModelHelper.DoValidationCheck(programDto);
             Assert.NotNull(results);
             Assert.True(results.Count > 0);
