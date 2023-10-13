@@ -7,7 +7,6 @@ namespace InternshipRegistrationAPI.Data.Contracts
         Task<Program> AddProgramAsync(Program program);
         Task<Program> GetProgramAsync(string id, string partitionKey);
         Task<IEnumerable<Program>> GetProgramsAsync();
-        Task<bool> RemoveProgramAsync(string id, string partitionKey);
         Task<Program> UpdateProgramAsync(Program program);
     }
 }

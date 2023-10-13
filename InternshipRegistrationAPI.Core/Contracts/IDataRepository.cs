@@ -7,10 +7,10 @@ namespace InternshipRegistrationAPI.Core.Contracts
     { }
     public interface IDataRepository<T> : IDataRepository where T : class
     {
-        Task<T> AddAsync(T entity);
-        Task<T> GetAsync(string id);
-        Task<IEnumerable<T>> GetAsync();
-        Task<T> UpdateAsync(T entity);
-        Task<bool> RemoveAsync(string Id);
+        public Task<T> AddAsync(T entity);
+        public Task<T> GetAsync(string id);
+        public Task<IEnumerable<T>> GetAsync();
+        public Task<T> UpdateAsync(T entity);
+        public Task<bool> RemoveAsync(string id);
     }
 }

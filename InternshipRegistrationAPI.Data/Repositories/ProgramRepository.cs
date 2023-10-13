@@ -35,11 +35,7 @@ namespace InternshipRegistrationAPI.Data.Repositories
         {
             return await UpdateAsync(program);
         }
-
-        public async Task<bool> RemoveProgramAsync(string id, string partitionKey)
-        {
-            return await RemoveAsync(id, partitionKey);
-        }
+        
 
     }
 

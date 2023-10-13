@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace InternshipRegistrationAPI.Core.Models;
 
-public class ApplicationForm : IDistributableEntity
+public class Form : IDistributableEntity
 {
     [JsonProperty(PropertyName = "id")]
     public string Id { get; set; }
