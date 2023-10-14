@@ -46,6 +46,27 @@ namespace InternshipRegistrationAPI.App.Controllers
             }
         }
 
+        [HttpGet("preview/{id}/{partitionKey}")]
+        public async Task<IActionResult> GetProgramPreview(string id, string partitionKey)
+        {
+            try
+            {
+                var responseData = await _programRepository.GetDocumentAsync(id, partitionKey);
+                var responseDto = _mapper.Map<ProgramPreviewDto>(responseData);
+
+                return Ok(responseDto);
+            }
+            catch (ItemNotFoundException ex)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError,
+                    new { error = "An error occurred", errorInfo = ex.Message });
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetPrograms()
         {

@@ -6,18 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InternshipRegistrationAPI.Core.Views
+namespace InternshipRegistrationAPI.Core.Dtos
 {
-    public  class PreviewView
+    public class ProgramPreviewDto
     {
         public string ProgramTitle { get; set; }
-        public string UploadCoverImageUrl { get; set; }
         public string ProgramDescription { get; set; }
         public string ProgramSummary { get; set; }
         public List<string> SkillsRequiredForProgram { get; set; }
         public string ProgramBenefits { get; set; }
         public string ApplicationCriteria { get; set; }
-        public ProgramType? ProgramType { get; set; }
+        public ProgramType ProgramType { get; set; }
         public DateTime ProgramStart { get; set; }
         public DateTime ApplicationOpen { get; set; }
         public DateTime ApplicationClose { get; set; }
