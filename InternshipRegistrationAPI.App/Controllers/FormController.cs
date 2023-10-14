@@ -3,11 +3,9 @@ using InternshipRegistrationAPI.Core.Dtos;
 using InternshipRegistrationAPI.Core.Exceptions;
 using InternshipRegistrationAPI.Core.Models;
 using InternshipRegistrationAPI.Data.Contracts;
-using InternshipRegistrationAPI.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net;
-using System.Reflection;
 
 namespace InternshipRegistrationAPI.App.Controllers;
 

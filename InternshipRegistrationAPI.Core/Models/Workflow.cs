@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using InternshipRegistrationAPI.Core.Contracts;
 using Newtonsoft.Json;
 

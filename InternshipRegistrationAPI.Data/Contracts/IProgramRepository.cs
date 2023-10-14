@@ -2,11 +2,7 @@
 
 namespace InternshipRegistrationAPI.Data.Contracts
 {
-    public interface IProgramRepository
+    public interface IProgramRepository : IDistributeableDataRepository<Program>
     {
-        Task<Program> AddDocumentAsync(Program program);
-        Task<Program> GetDocumentAsync(string id, string partitionKey);
-        Task<IEnumerable<Program>> GetDocumentsAsync();
-        Task<Program> UpdateProgramAsync(Program program);
     }
 }

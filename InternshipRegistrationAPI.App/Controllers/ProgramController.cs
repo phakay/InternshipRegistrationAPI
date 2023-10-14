@@ -126,7 +126,7 @@ namespace InternshipRegistrationAPI.App.Controllers
                 }
                     
                 var data = _mapper.Map<Models.Program>(dto);
-                var responseData = await _programRepository.UpdateProgramAsync(data);
+                var responseData = await _programRepository.UpdateDocumentAsync(data);
                 ProgramDto response = _mapper.Map<ProgramDto>(responseData);
                 return Ok(response);
             }

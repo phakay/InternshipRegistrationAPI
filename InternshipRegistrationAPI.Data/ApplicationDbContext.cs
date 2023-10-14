@@ -10,14 +10,15 @@ namespace InternshipRegistrationAPI.Data
         private static readonly string PrimaryKey = ConfigurationManager.AppSettings["PrimaryKey"];
         private static readonly string DatabaseId = ConfigurationManager.AppSettings["DatabaseId"];
         private readonly CosmosClient _client;
-        
+
 
         public ApplicationDbContext()
         {
             _client = new CosmosClient(EndpointUri, PrimaryKey);
+            Database = _client.CreateDatabaseIfNotExistsAsync(DatabaseId).Result;
         }
 
-        public Database Database => _client.CreateDatabaseIfNotExistsAsync(DatabaseId).Result;
+        public Database Database { get; }
 
         public void Dispose()
         {
