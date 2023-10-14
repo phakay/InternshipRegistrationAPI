@@ -2,6 +2,7 @@
 using InternshipRegistrationAPI.Core.Contracts;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -18,7 +19,7 @@ namespace InternshipRegistrationAPI.Core.Models
         public string ProgramSummary { get; set; }
         [Required]
         public string ProgramDescription { get; set; }
-        public string SkillsRequiredForProgram { get; set; }
+        public List<string> SkillsRequiredForProgram { get; set; }
         public string ProgramBenefits { get; set; }
         public string ApplicationCriteria { get; set; }
         [Required]

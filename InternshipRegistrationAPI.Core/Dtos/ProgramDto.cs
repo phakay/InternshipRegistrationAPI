@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using InternshipRegistrationAPI.Core.Models;
 
 namespace InternshipRegistrationAPI.Core.Dtos
@@ -13,7 +14,7 @@ namespace InternshipRegistrationAPI.Core.Dtos
         public string ProgramSummary { get; set; }
         [Required]
         public string ProgramDescription { get; set; }
-        public string SkillsRequiredForProgram { get; set; }
+        public List<string> SkillsRequiredForProgram { get; set; }
         public string ProgramBenefits { get; set; }
         public string ApplicationCriteria { get; set; }
         [Required]
