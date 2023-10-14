@@ -1,5 +1,6 @@
 ﻿using InternshipRegistrationAPI.Core.Contracts;
 using InternshipRegistrationAPI.Core.Exceptions;
+using InternshipRegistrationAPI.Core.Models;
 using InternshipRegistrationAPI.Data.Contracts;
 using Microsoft.Azure.Cosmos;
 using System.Net;
@@ -7,11 +8,11 @@ using System.Net;
 namespace InternshipRegistrationAPI.Data.Repositories;
 
 
-public class DataRepository<T> : IDataRepository<T> where T : class, IDistributableEntity
+public class CosmosDbRepository<T> : IDataRepository<T>, IDistributeableDataRepository<T> where T : class, IDistributableEntity
 {
     private Container _container;
 
-    public DataRepository(IApplicationDbContext dbContext, string containerId, string partitionKeyPath)
+    public CosmosDbRepository(IApplicationDbContext dbContext, string containerId, string partitionKeyPath)
     {
         _container = dbContext.Database.CreateContainerIfNotExistsAsync(containerId, partitionKeyPath).Result;
     }
@@ -20,12 +21,12 @@ public class DataRepository<T> : IDataRepository<T> where T : class, IDistributa
     {
         try
         {
-            return  await GetAsync(entity.Id, entity.PartitionKey);
+            return await GetAsync(entity.Id, entity.PartitionKey);
         }
         catch (ItemNotFoundException)
         {
             var response = await _container.CreateItemAsync<T>(entity, new PartitionKey(entity.PartitionKey));
-            return  response.Resource;
+            return response.Resource;
         }
     }
 
@@ -38,10 +39,10 @@ public class DataRepository<T> : IDataRepository<T> where T : class, IDistributa
         }
         catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
         {
-            throw new ItemNotFoundException($"Then entity: {entity.Id} could not be found");
+            throw new ItemNotFoundException($"The entity '{entity.Id}' in partition '{entity.PartitionKey}' could not be found");
         }
     }
-     
+
     public async Task<T> GetAsync(string id, string partitionKey)
     {
         try
@@ -51,9 +52,9 @@ public class DataRepository<T> : IDataRepository<T> where T : class, IDistributa
         }
         catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
         {
-            throw new ItemNotFoundException($"Then entity: {id} could not be found");
+            throw new ItemNotFoundException($"The entity '{id}' in partition '{partitionKey}' could not be found");
         }
-  
+
     }
 
     public async Task<T> GetAsync(string id)
@@ -87,11 +88,44 @@ public class DataRepository<T> : IDataRepository<T> where T : class, IDistributa
         ItemResponse<T> response = await _container.DeleteItemAsync<T>(id, new PartitionKey(partitionKey));
         return response.StatusCode == HttpStatusCode.NoContent;
     }
-    
+
 
     public Task<bool> RemoveAsync(string id)
     {
         throw new NotImplementedException();
     }
 
+    #region IDistributeableDataRepository Methods
+
+    public async virtual Task<T> AddDocumentAsync(T document)
+    {
+        if (string.IsNullOrEmpty(document.Id))
+        {
+            document.Id = Guid.NewGuid().ToString();
+
+        }
+
+        return await AddAsync(document);
+    }
+
+    public async virtual Task<IEnumerable<T>> GetDocumentsAsync()
+    {
+        return await GetAsync();
+    }
+
+    public async virtual Task<T> GetDocumentAsync(string id, string partitionKey)
+    {
+        return await GetAsync(id, partitionKey);
+    }
+
+    public async virtual Task<bool> RemoveDocumentAsync(string id, string partitionKey)
+    {
+        return await RemoveAsync(id, partitionKey);
+    }
+
+    public async virtual Task<T> UpdateDocumentAsync(T document)
+    {
+        return await UpdateAsync(document);
+    }
+    #endregion
 }

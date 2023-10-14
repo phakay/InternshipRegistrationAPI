@@ -10,7 +10,8 @@ namespace InternshipRegistrationAPI.App
         {
             CreateMap<Models.Program, ProgramDto>().ReverseMap();
             CreateMap<Form, FormDto>().ReverseMap();
-            
+            CreateMap<Workflow, WorkflowDto>().ReverseMap();
+
         }
     }
 }

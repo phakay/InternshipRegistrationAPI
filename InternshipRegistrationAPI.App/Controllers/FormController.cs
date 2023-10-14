@@ -3,8 +3,11 @@ using InternshipRegistrationAPI.Core.Dtos;
 using InternshipRegistrationAPI.Core.Exceptions;
 using InternshipRegistrationAPI.Core.Models;
 using InternshipRegistrationAPI.Data.Contracts;
+using InternshipRegistrationAPI.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net;
+using System.Reflection;
 
 namespace InternshipRegistrationAPI.App.Controllers;
 
@@ -26,7 +29,7 @@ public class FormController : ControllerBase
     {
         try
         {
-            var responseData = await _formRepository.GetFormAsync(id, partitionKey);
+            var responseData = await _formRepository.GetDocumentAsync(id, partitionKey);
             var responseDto = _mapper.Map<FormDto>(responseData);
 
             return Ok(responseDto);
@@ -47,7 +50,7 @@ public class FormController : ControllerBase
     {
         try
         {
-            var responseData = await _formRepository.GetFormsAsync();
+            var responseData = await _formRepository.GetDocumentsAsync();
             var responseDtos = new List<FormDto>();
             foreach (var data in responseData)
             {
@@ -82,7 +85,7 @@ public class FormController : ControllerBase
             }
 
             var data = _mapper.Map<Form>(dto);
-            var responseData = await _formRepository.UpdateFormAsync(data);
+            var responseData = await _formRepository.UpdateDocumentAsync(data);
             FormDto response = _mapper.Map<FormDto>(responseData);
             return Ok(response);
         }
@@ -91,5 +94,27 @@ public class FormController : ControllerBase
             return StatusCode((int)HttpStatusCode.InternalServerError,
                 new { error = "An error occurred", errorInfo = ex.Message });
         }
+
     }
+
+    [HttpPost]
+    public async Task<IActionResult> PostForm([FromBody] FormDto dto)
+    {
+        try
+        {
+            if (ModelState.ValidationState != ModelValidationState.Valid)
+                return BadRequest(ModelState);
+
+            var data = _mapper.Map<Form>(dto);
+            var responseData = await _formRepository.AddDocumentAsync(data);
+            FormDto response = _mapper.Map<FormDto>(responseData);
+            return CreatedAtAction(nameof(GetForm), new { id = responseData.Id, partitionKey = responseData.PartitionKey }, response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode((int)HttpStatusCode.InternalServerError,
+                new { error = "An error occurred", errorInfo = ex.Message });
+        }
+    }
+
 }

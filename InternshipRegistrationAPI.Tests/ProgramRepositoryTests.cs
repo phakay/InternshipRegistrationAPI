@@ -59,7 +59,7 @@ public class ProgramRepositoryTests
             .ReturnsAsync(mockItemResponse.Object);
 
         // Act
-        var response = await _repo.GetProgramAsync("001", "program");
+        var response = await _repo.GetDocumentAsync("001", "program");
 
         // Assert
         Assert.NotNull(response);
@@ -80,7 +80,7 @@ public class ProgramRepositoryTests
                 default, default));
 
         // Act
-        var response = await Record.ExceptionAsync(() => _repo.GetProgramAsync("001", "program"));
+        var response = await Record.ExceptionAsync(() => _repo.GetDocumentAsync("001", "program"));
 
 
         // Assert
@@ -113,7 +113,7 @@ public class ProgramRepositoryTests
                 default, default));
 
         // Act
-        var response = await _repo.AddProgramAsync(data);
+        var response = await _repo.AddDocumentAsync(data);
 
         // Assert
         Assert.NotNull(response);

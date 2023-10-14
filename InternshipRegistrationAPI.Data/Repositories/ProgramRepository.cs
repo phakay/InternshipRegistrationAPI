@@ -3,7 +3,7 @@ using InternshipRegistrationAPI.Core.Models;
 
 namespace InternshipRegistrationAPI.Data.Repositories
 {
-    public class ProgramRepository : DataRepository<Program>, IProgramRepository
+    public class ProgramRepository : CosmosDbRepository<Program>, IProgramRepository
     {
         public ProgramRepository(IApplicationDbContext dbContext)
             : this(dbContext, "Programs", "/Type")
@@ -12,17 +12,17 @@ namespace InternshipRegistrationAPI.Data.Repositories
             : base(dbContext, containerId, partitionKeyPath)
         { }
 
-        public async Task<Program> GetProgramAsync(string id, string partitionKey)
+        public async Task<Program> GetDocumentAsync(string id, string partitionKey)
         {
             return await GetAsync(id, partitionKey);
 
         }
 
-        public async Task<IEnumerable<Program>> GetProgramsAsync()
+        public async Task<IEnumerable<Program>> GetDocumentsAsync()
         {
             return await GetAsync();
         }
-        public async Task<Program> AddProgramAsync(Program program)
+        public async Task<Program> AddDocumentAsync(Program program)
         {
             if (string.IsNullOrEmpty(program.Id)) 
             { 

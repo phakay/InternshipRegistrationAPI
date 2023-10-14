@@ -2,7 +2,7 @@
 {
     public interface IDistributableEntity
     {
-        string Id { get; }
+        string Id { get; set; }
         string PartitionKey { get; }
     }
 }

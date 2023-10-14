@@ -22,7 +22,6 @@ public class Form : IDistributableEntity
     #region IDistributable Property
     [JsonIgnore]
     public string PartitionKey => Type;
-    string IDistributableEntity.Id => Id;
     #endregion
 }
 
@@ -66,6 +65,9 @@ public class QuestionTemplate
     public QuestionType TypeOfQuestion { get; set;  }
     public string Question { get; set; }
     public List<string> Choices { get; set; }
+    public int MaxChoice { get; set; }
+    public bool EnableOtherOption { get; set; }
+    public bool DisqualifyIfAnswerNo { get; set; }
 }
 
 public enum QuestionType

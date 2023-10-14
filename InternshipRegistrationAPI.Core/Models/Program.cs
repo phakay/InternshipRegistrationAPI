@@ -27,7 +27,6 @@ namespace InternshipRegistrationAPI.Core.Models
         #region IDistributable Property
         [JsonIgnore]
         public string PartitionKey => Type;
-        string IDistributableEntity.Id => Id;
         #endregion
 
     }

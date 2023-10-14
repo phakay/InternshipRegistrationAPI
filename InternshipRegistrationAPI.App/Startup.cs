@@ -25,6 +25,8 @@ namespace InternshipRegistrationAPI.App
 
             services.AddScoped<IFormRepository, FormRepository>();
 
+            services.AddScoped<IWorkflowRepository, WorkflowRepository>();
+
             services.AddScoped<IMapper>(svc => new MapperConfiguration(conf => conf.AddProfile<MappingProfile>()).CreateMapper());
         }
     }

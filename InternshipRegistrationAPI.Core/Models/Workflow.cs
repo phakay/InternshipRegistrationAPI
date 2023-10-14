@@ -12,24 +12,23 @@ public class Workflow : IDistributableEntity
     public string Id { get; set; }
     [Required]
     public string Type { get; set; }
-    public List<StageTemplate> Stages = new List<StageTemplate>();
-    [RegularExpression("true", ErrorMessage = "The 'Stages' must contain a distinct order")]
-    public bool ValidateStages => Stages.DistinctBy(b => b.StageOrderId).Count() == Stages.Count;
+    [Required]
+    public List<StageTemplate> Stages { get; set; } = new List<StageTemplate>();
 
 
     #region IDistributable Property
     [JsonIgnore]
     public string PartitionKey => Type;
-    string IDistributableEntity.Id => Id;
     #endregion
 }
 
 public class StageTemplate
 {
-    public StageType StageType;
-    public string StageName;
-    public int StageOrderId;
-
+    public StageType StageType { get; set; }
+    public string StageName { get; set; }
+    public int StageOrder { get; set; }
+    public bool ShowCandidate { get; set; }
+    public List<VideoInterviewQuestionTemplate> VideoInterviewQuestions { get; set; }
 }
 
 public enum StageType
@@ -37,21 +36,6 @@ public enum StageType
     Shortlisting,
     VideoInterview,
     Placement
-}
-
-public class VideoInterview
-{
-    public List<VideoInterviewQuestionTemplate> VideoInterviewQuestions;
-}
-
-public class Shortlisting
-{
-    public string ShortlistingInfo;
-}
-
-public class Placement
-{
-    public string PlacementInfo;
 }
 
 

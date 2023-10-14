@@ -27,7 +27,7 @@ public class ProgramControllerTests
     public async Task GetProgram_ProgramDoesNotExist_ReturnsNotFound404()
     {
         // Arrange
-        _mockProgramRepository.Setup(r => r.GetProgramAsync("001", "001"))
+        _mockProgramRepository.Setup(r => r.GetDocumentAsync("001", "001"))
             .ThrowsAsync(new ItemNotFoundException("Item not found"));
 
         // Act
@@ -42,7 +42,7 @@ public class ProgramControllerTests
     public async Task GetProgram_ProgramExists_ReturnsOkResult()
     {
         var dbData = new Program { Id = "001", ProgramTitle = "Test" };
-        _mockProgramRepository.Setup(r => r.GetProgramAsync("001", "001"))
+        _mockProgramRepository.Setup(r => r.GetDocumentAsync("001", "001"))
             .ReturnsAsync(dbData);
         
         var response = await _programController.GetProgram("001", "001");
@@ -62,7 +62,7 @@ public class ProgramControllerTests
         var postData = new ProgramDto{ Id = "001", ProgramTitle = "Test" };
         var dbResponse = new Program { Id = "001", ProgramTitle = "Test" };
 
-        _mockProgramRepository.Setup(r => r.AddProgramAsync(It.Is<Program>((o) => o.Id == "001" && o.ProgramTitle == "Test")))
+        _mockProgramRepository.Setup(r => r.AddDocumentAsync(It.Is<Program>((o) => o.Id == "001" && o.ProgramTitle == "Test")))
             .ReturnsAsync(dbResponse);
         
         var response = await _programController.PostProgram(postData);

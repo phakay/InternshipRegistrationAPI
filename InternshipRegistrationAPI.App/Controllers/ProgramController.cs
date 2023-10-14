@@ -30,7 +30,7 @@ namespace InternshipRegistrationAPI.App.Controllers
         {
             try
             {
-                var responseData = await _programRepository.GetProgramAsync(id, partitionKey);
+                var responseData = await _programRepository.GetDocumentAsync(id, partitionKey);
                 var responseDto = _mapper.Map<ProgramDto>(responseData);
 
                 return Ok(responseDto);
@@ -51,7 +51,7 @@ namespace InternshipRegistrationAPI.App.Controllers
         {
             try
             {
-                var responseData = await _programRepository.GetProgramsAsync();
+                var responseData = await _programRepository.GetDocumentsAsync();
                 var responseDtos = new List<ProgramDto>();
                 foreach (var data in responseData)
                 {
@@ -76,7 +76,7 @@ namespace InternshipRegistrationAPI.App.Controllers
                     return BadRequest(ModelState);
 
                 var data = _mapper.Map<Models.Program>(dto);
-                var responseData = await _programRepository.AddProgramAsync(data);
+                var responseData = await _programRepository.AddDocumentAsync(data);
                 ProgramDto response =  _mapper.Map<ProgramDto>(responseData);
                 return CreatedAtAction(nameof(GetProgram), new {id = responseData.Id , partitionKey = responseData.PartitionKey}, response );
             }
