@@ -25,7 +25,9 @@ namespace InternshipRegistrationAPI.Core.Models
         public AdditionalProgramInformation AdditionalProgramInformation { get; set; }
 
         #region IDistributable Property
+        [JsonIgnore]
         public string PartitionKey => Type;
+        string IDistributableEntity.Id => Id;
         #endregion
 
     }

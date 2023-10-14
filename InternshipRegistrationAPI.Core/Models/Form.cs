@@ -20,7 +20,9 @@ public class Form : IDistributableEntity
 
 
     #region IDistributable Property
+    [JsonIgnore]
     public string PartitionKey => Type;
+    string IDistributableEntity.Id => Id;
     #endregion
 }
 
