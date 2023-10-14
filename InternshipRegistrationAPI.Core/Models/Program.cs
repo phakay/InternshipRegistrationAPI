@@ -12,6 +12,8 @@ namespace InternshipRegistrationAPI.Core.Models
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
         [Required]
+        public string Type { get; set; }
+        [Required]
         public  string ProgramTitle { get; set; }
         public string ProgramSummary { get; set; }
         [Required]
@@ -23,10 +25,11 @@ namespace InternshipRegistrationAPI.Core.Models
         public AdditionalProgramInformation AdditionalProgramInformation { get; set; }
 
         #region IDistributable Property
-        public string PartitionKey => Id;
+        public string PartitionKey => Type;
         #endregion
 
     }
+    
 
     public class AdditionalProgramInformation
     {

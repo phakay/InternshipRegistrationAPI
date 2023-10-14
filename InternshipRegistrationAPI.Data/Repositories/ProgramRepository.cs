@@ -6,7 +6,7 @@ namespace InternshipRegistrationAPI.Data.Repositories
     public class ProgramRepository : DataRepository<Program>, IProgramRepository
     {
         public ProgramRepository(IApplicationDbContext dbContext)
-            : this(dbContext, "Programs", "/id")
+            : this(dbContext, "Programs", "/Type")
         { }
         protected ProgramRepository(IApplicationDbContext dbContext, string containerId, string partitionKeyPath)
             : base(dbContext, containerId, partitionKeyPath)

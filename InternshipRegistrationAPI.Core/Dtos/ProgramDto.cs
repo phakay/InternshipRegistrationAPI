@@ -7,6 +7,8 @@ namespace InternshipRegistrationAPI.Core.Dtos
     {
         public string Id { get; set; }  
         [Required]
+        public string Type { get; set; }
+        [Required]
         public string ProgramTitle { get; set; }
         public string ProgramSummary { get; set; }
         [Required]
@@ -22,6 +24,7 @@ namespace InternshipRegistrationAPI.Core.Dtos
             ProgramDto programDto = new ProgramDto
             {
                 Id = "001",
+                Type = "program",
                 ProgramDescription = "Test Descritpion",
                 ProgramTitle = "Title",
                 AdditionalProgramInformation = new AdditionalProgramInformation()

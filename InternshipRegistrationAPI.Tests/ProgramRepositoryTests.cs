@@ -17,7 +17,7 @@ public class ProgramRepositoryTests
     public ProgramRepositoryTests()
     {
         string containerId = "Programs";
-        string partitionKeyPath = "/id";
+        string partitionKeyPath = "/Type";
 
         var mockDbContext = new Mock<IApplicationDbContext>();
         var mockContainerResponse = new Mock<ContainerResponse>();
@@ -45,7 +45,7 @@ public class ProgramRepositoryTests
     public async Task GetProgramAsync_ProgramExists_Success()
     {
         // Arrange
-        var dbData = new Program{ Id = "001", ProgramTitle = "Test" };
+        var dbData = new Program{ Id = "001", ProgramTitle = "Test", Type = "program"};
         var mockItemResponse = new Mock<ItemResponse<Program>>();
         mockItemResponse.SetupGet(x => x.Resource).Returns(dbData);
 
@@ -59,12 +59,12 @@ public class ProgramRepositoryTests
             .ReturnsAsync(mockItemResponse.Object);
 
         // Act
-        var response = await _repo.GetProgramAsync("001", "001");
+        var response = await _repo.GetProgramAsync("001", "program");
 
         // Assert
         Assert.NotNull(response);
         Assert.Equal("001", response.Id);
-        Assert.Equal("001", response.PartitionKey);
+        Assert.Equal("program", response.PartitionKey);
         Assert.Equal("Test", response.ProgramTitle);
     }
 
@@ -73,14 +73,14 @@ public class ProgramRepositoryTests
     {
         // Arrange
         _mockContainer.Setup(x => x.ReadItemAsync<Program>(
-                "001", new PartitionKey("001"),
+                "001", new PartitionKey("program"),
                 It.IsAny<ItemRequestOptions>(),
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(new CosmosException("Not found", HttpStatusCode.NotFound, (int)HttpStatusCode.NotFound,
                 default, default));
 
         // Act
-        var response = await Record.ExceptionAsync(() => _repo.GetProgramAsync("001", "001"));
+        var response = await Record.ExceptionAsync(() => _repo.GetProgramAsync("001", "program"));
 
 
         // Assert
@@ -92,7 +92,7 @@ public class ProgramRepositoryTests
     public async Task AddProgramAsync_ValidData_Success()
     {
         // Arrange
-        var data = new Program { Id = "001", ProgramTitle = "Test" };
+        var data = new Program { Id = "001", ProgramTitle = "Test", Type = "program"};
         var mockItemResponse = new Mock<ItemResponse<Program>>();
         mockItemResponse.SetupGet(x => x.Resource).Returns(data);
 
@@ -118,7 +118,7 @@ public class ProgramRepositoryTests
         // Assert
         Assert.NotNull(response);
         Assert.Equal("001", response.Id);
-        Assert.Equal("001", response.PartitionKey);
+        Assert.Equal("program", response.PartitionKey);
         Assert.Equal("Test", response.ProgramTitle);
     }
 
@@ -126,6 +126,6 @@ public class ProgramRepositoryTests
     private void AssertIdAndPartitionKey(string id, PartitionKey pk, ItemRequestOptions ops, CancellationToken token)
     {
         Assert.Equal("001", id);
-        Assert.Equal(new PartitionKey("001"), pk);
+        Assert.Equal(new PartitionKey("program"), pk);
     }
 }
